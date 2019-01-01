@@ -20,5 +20,5 @@ public class LivingEntity : MonoBehaviour
     public virtual void TargetTo(){
         
     }
-    }
+
 }
