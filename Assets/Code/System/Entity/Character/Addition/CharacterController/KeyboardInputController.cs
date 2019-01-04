@@ -16,13 +16,15 @@ public class KeyboardInputController : MonoBehaviour
         if(horizontalInput!=0){
             /*暂时的写法 */
             this.gameObject.GetComponent<AnimatorStateAdapter>().SetState("walk");
-            if(horizontalInput>0){
-                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
-            }else{
-                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0,180,0));
-            }
+            gameObject.GetComponent<CharacterBase>().TurnFace(horizontalInput>0?1:-1);
+            gameObject.GetComponent<CharacterBase>().Move();
         }else{
-            this.gameObject.GetComponent<AnimatorStateAdapter>().SetState("idle");
-        }    
+             this.gameObject.GetComponent<AnimatorStateAdapter>().SetState("idle");
+            gameObject.GetComponent<CharacterBase>().Idle();
+        }
+        if(Input.GetButtonDown("Jump")){
+            this.gameObject.GetComponent<CharacterBase>().Jump();
+            this.gameObject.GetComponent<AnimatorStateAdapter>().SetState("jump");
+        }
     }
 }

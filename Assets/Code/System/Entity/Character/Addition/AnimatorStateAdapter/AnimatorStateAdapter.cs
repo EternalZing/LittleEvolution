@@ -19,6 +19,14 @@ public class AnimatorStateAdapter : MonoBehaviour
                 animator.SetInteger("walk",0);
                 break;
             }
+            case "jump":{
+                animator.SetInteger("jump",1);
+                break;
+            }
+            case "no-jump":{
+                animator.SetInteger("jump",0);
+                break;
+            }
         }
     }
     // Update is called once per frame

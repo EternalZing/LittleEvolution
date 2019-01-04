@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseEntity : MonoBehaviour{
+public class EntityBase : MonoBehaviour{
     // Start is called before the first frame update
-    void Start(){
+    public float HealthPoint;
+    public void Start(){
         
     }
     public string EntityName{get;set;}
     // Update is called once per frame
-    void Update(){
+    public void Update(){
         
     }
 }

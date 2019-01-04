@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LivingEntity : MonoBehaviour
+public class LivingEntity : EntityBase
 {
     // Start is called before the first frame update
     public int FacingDirection{get;set;}
-    public void Start(){
-        
-    }
+    public float movingSpeed = 0;
 
-    // Update is called once per frame
-    public void Update(){
-        
-    }
+    public Dictionary<string,float> additionalStatus;
     public virtual void Move(){
 
     }

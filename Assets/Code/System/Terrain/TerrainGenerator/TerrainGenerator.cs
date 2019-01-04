@@ -2,19 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainGenerator : MonoBehaviour
-{
-    void Start()
-    {
-        
-    }
+public class TerrainGenerator : ScriptableObject{
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    void GenerateTerrain(){
+    public virtual void GenerateTerrain(){
         
     }
 }
