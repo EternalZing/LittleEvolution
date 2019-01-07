@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60ed57a0316c2d54ba67a5b16c8a64a1, type: 3}
+  m_Name: NormalSmallWild
+  m_EditorClassIdentifier: 
+  floor: {fileID: 11400000, guid: dd8d2a973f7363743aecc908ec89ba22, type: 2}
+  dirt: {fileID: 11400000, guid: 99fff40fe5e1dba4fb8e532abea8091c, type: 2}
+  ladder: {fileID: 0}
+  floatingIsland: {fileID: 0}
+  averageAltitude: 4
+  blockLength: 14
+  seed: 

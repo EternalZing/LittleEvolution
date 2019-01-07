@@ -302,7 +302,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745942452}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.24, y: 1.98, z: 10}
+  m_LocalPosition: {x: -12.23, y: 2.03, z: 10}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 519420032}
@@ -381,7 +381,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634786060}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.25, y: 1.97, z: 10}
+  m_LocalPosition: {x: 8.25, y: 2.03, z: 10}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 519420032}
@@ -446,10 +446,10 @@ GameObject:
   - component: {fileID: 1897169814}
   - component: {fileID: 1897169817}
   - component: {fileID: 1897169816}
-  - component: {fileID: 1897169819}
   - component: {fileID: 1897169818}
   - component: {fileID: 1897169815}
   - component: {fileID: 1897169820}
+  - component: {fileID: 1897169819}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Terrain
@@ -574,29 +574,29 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 20274.062
-      e01: 8.785357e-39
+      e00: NaN
+      e01: 1e-43
       e02: NaN
-      e03: 150.83704
-      e10: 0
+      e03: 0
+      e10: NaN
       e11: 0
       e12: NaN
-      e13: 1e-45
-      e20: 8.785435e-39
-      e21: 3.2646048
-      e22: 0
-      e23: 5.908082
-      e30: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1e-43
+      e23: 0
+      e30: NaN
       e31: 0
       e32: 0
-      e33: 1e-45
+      e33: 0
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+    m_Data: {r: 0, g: 0, b: 0, a: 0}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -16, y: -5, z: 0}
-  m_Size: {x: 33, y: 11, z: 1}
+  m_Origin: {x: -40, y: -26, z: 0}
+  m_Size: {x: 57, y: 32, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -646,7 +646,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1897169813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c9d141eb5f3a04c9b55f2ccc1cb268, type: 3}
+  m_Script: {fileID: 11500000, guid: 6db26bb8f48dbe145ac45e74d155ca4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   terrainGenerator: {fileID: 11400000, guid: 26d4b68cc6efb9248a2865f60636c42f, type: 2}
@@ -684,7 +684,7 @@ GameObject:
   - component: {fileID: 1962635273}
   m_Layer: 0
   m_Name: Knight_idle_02
-  m_TagString: Untagged
+  m_TagString: hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -854,6 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb68b679bdd2c643b6cf597078701bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthPoint: 0
   movingSpeed: 0
   animatorAdapter: {fileID: 1962635269}
 --- !u!66 &1962635273
