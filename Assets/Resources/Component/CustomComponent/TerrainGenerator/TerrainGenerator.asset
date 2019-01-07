@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: TerrainGenerator
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  tileBase: {fileID: 11400000, guid: de19a2843a821bf408d85079724df125, type: 2}
+  floorTile: {fileID: 11400000, guid: d2a454cdcf61587439cbe5ede10d0c9c, type: 2}
+  benethTile: {fileID: 0}
   seed: 
   floor: 0
-  size: 13
+  size: 17
   leftBottomCorner: {x: -10, y: -4, z: 0}
