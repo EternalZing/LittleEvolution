@@ -6,11 +6,11 @@ public class CharacterBase : LivingEntity{
     public AnimatorStateAdapter animatorAdapter;
     protected const float FACING_BASE = 90f;
     protected const float FACING_BAIS = 90f;
-    protected const float JUMP_SCALE = 3f;
+    protected const float JUMP_SCALE = 5f;
 
     protected bool grounded = false;
     public new void Start(){
-        movingSpeed = 3;
+        movingSpeed = 7;
     }
 
     // Update is called once per frame
@@ -25,8 +25,8 @@ public class CharacterBase : LivingEntity{
         animatorAdapter.SetState("idle");
         this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0,GetComponent<Rigidbody2D>().velocity.y,0);
     }
-    public new void Move(){
-        animatorAdapter.SetState("move");
+    public override void Move(){
+        animatorAdapter.SetState("walk");
         this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(FacingDirection*movingSpeed,GetComponent<Rigidbody2D>().velocity.y,0);
     }    
     public void Jump(){
@@ -37,7 +37,6 @@ public class CharacterBase : LivingEntity{
         }else{
            
         }
-     
     }
     public void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag.Equals("Terrain")){

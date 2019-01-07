@@ -15,11 +15,12 @@ public class BlockSet : ScriptableObject {
     public TileBase ladder;
     public TileBase floatingIsland;
     public int averageAltitude;
-
-    public int BlockLength = 17;
+    public int IslandMinHeight;
+    public int IslanMinLength;
+    public int BlockLength = 35;
     //生成结果
-    private  List<Vector3Int> generatorInfoVector3;
-    private  List<TileBase> generatorInfoTileBase;
+    private  List<Vector3Int> generatorInfoVector3 = new List<Vector3Int>();
+    private  List<TileBase> generatorInfoTileBase = new List<TileBase>();
     
     //随机种子
     
@@ -36,7 +37,27 @@ public class BlockSet : ScriptableObject {
             generatorInfoTileBase.Add(floor);
         }
     }
-    
+
+    public void GeneratingSlope() {
+        int left = Random.Range(2, BlockLength-7); ;
+
+        int right = Random.Range(3, 7);
+ 
+        for (int i = left;i <= left+right; i++) {
+            generatorInfoVector3.Add(new Vector3Int(i,averageAltitude+Random.Range(1,2),0));
+            generatorInfoTileBase.Add(floor);
+        }
+    }
+    public void GeneratingFloatIsland(){
+        int height = Random.Range(IslandMinHeight,IslandMinHeight+5);
+        int left = Random.Range(0, BlockLength/2); ;
+        int maxLength = BlockLength - left-1;
+        int islandLength =  Random.Range(IslanMinLength,maxLength);
+        for(int i=left;i<=left+islandLength;i++){
+            generatorInfoVector3.Add(new Vector3Int(i,averageAltitude+height,0));
+            generatorInfoTileBase.Add(floatingIsland);
+        }
+    }
     //生成标记
     private bool initialized =false;
     //初始化地形信息.
@@ -47,6 +68,8 @@ public class BlockSet : ScriptableObject {
                  generatorInfoTileBase.Clear();
                  generatorInfoVector3.Clear();
                  GeneratingFloorInfo();
+                 GeneratingSlope();
+                 GeneratingFloatIsland();
                  initialized = true;
         }else{
             Debug.LogError("Terrian Already initilized before");
@@ -72,6 +95,7 @@ public class BlockSet : ScriptableObject {
         if (floor == null) {
             Debug.LogWarning(string.Format("BlockSet {0} has no floor tile,Are you sure you want to make a no-floor terrain?.",this.name));
         }
+      
         return !(seed.Trim().Equals(""));
     }
     //Tile信息
@@ -80,9 +104,13 @@ public class BlockSet : ScriptableObject {
             return generatorInfoTileBase;
         }
     }
+
+ 
     //释放当前的blockset属性以期待下次调用.
     public void LetBlockGetInfo() {
         initialized = false;
+        InfoCompletionCheck();
+        Random.InitState(seed.GetHashCode());
         Init();
     }
 

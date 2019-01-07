@@ -27,6 +27,14 @@ public class AnimatorStateAdapter : MonoBehaviour
                 animator.SetInteger("jump",0);
                 break;
             }
+            case "dash":{
+                animator.SetInteger("dash",1);
+                break;
+            }
+            case "no-dash":{
+                animator.SetInteger("dash",0);
+                break;
+            }
         }
     }
     // Update is called once per frame

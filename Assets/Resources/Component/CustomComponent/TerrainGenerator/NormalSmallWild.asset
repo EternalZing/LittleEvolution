@@ -15,7 +15,9 @@ MonoBehaviour:
   floor: {fileID: 11400000, guid: dd8d2a973f7363743aecc908ec89ba22, type: 2}
   dirt: {fileID: 11400000, guid: 99fff40fe5e1dba4fb8e532abea8091c, type: 2}
   ladder: {fileID: 0}
-  floatingIsland: {fileID: 0}
+  floatingIsland: {fileID: 11400000, guid: c479e17a3f137984492dab618abc8f21, type: 2}
   averageAltitude: 4
-  blockLength: 14
-  seed: 
+  IslandMinHeight: 4
+  IslanMinLength: 4
+  BlockLength: 35
+  seed: 3

@@ -679,9 +679,9 @@ GameObject:
   - component: {fileID: 1962635268}
   - component: {fileID: 1962635270}
   - component: {fileID: 1962635271}
-  - component: {fileID: 1962635272}
   - component: {fileID: 1962635274}
   - component: {fileID: 1962635273}
+  - component: {fileID: 1962635272}
   m_Layer: 0
   m_Name: Knight_idle_02
   m_TagString: hero
@@ -745,7 +745,7 @@ SpriteRenderer:
   m_SortingLayerID: 912016343
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e70ab950968e2ef439f986ec395141c6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84ce2f114ad12bd4ebafc77060220324, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -764,7 +764,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962635264}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.02, y: 2.62, z: 0}
+  m_LocalPosition: {x: -5.02, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -851,11 +851,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1962635264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cb68b679bdd2c643b6cf597078701bb, type: 3}
+  m_Script: {fileID: 11500000, guid: e6a26b904102a63418ea170e7a98f0ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HealthPoint: 0
-  movingSpeed: 0
+  movingSpeed: 10
   animatorAdapter: {fileID: 1962635269}
 --- !u!66 &1962635273
 CompositeCollider2D:

@@ -17,9 +17,8 @@ public class Terrain : MonoBehaviour
         if(terrainGenerator.GetType().IsSubclassOf(typeof (TilemapTerrainGenerator))){
             ((TilemapTerrainGenerator)(terrainGenerator)).target = this.GetComponent<Tilemap>();
         }
-        terrainGenerator.GenerateTerrain();
     }
-
+    
     // Update is called once per frame
     void Update(){
         
