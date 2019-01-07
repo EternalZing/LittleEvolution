@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Xml.Schema;
 using Code.System.Terrain.TerrainGenerator;
+using JetBrains.Annotations;
 
 [CreateAssetMenu(menuName="GameComponent/TilemapTerrainGenerator")]
 public class TilemapTerrainGenerator : TerrainGenerator{
@@ -22,8 +23,6 @@ public class TilemapTerrainGenerator : TerrainGenerator{
         public bool Wasted { get; set; }
         public int BlockId { get; set; }
         public Vector3Int shifter;
-        public int blockLentgh;
-
         public TilemapTerrainBlock() {
             
         }
@@ -31,8 +30,15 @@ public class TilemapTerrainGenerator : TerrainGenerator{
         public TilemapTerrainBlock(int i) {
             BlockId = i;
         }
+
+        public TilemapTerrainBlock(int id, string seed) {
+            this.seed = seed;
+            BlockId = id;
+        }
     }
 
+    public int generatingSpeed = 10;
+    public bool locked = false;
     public BlockSet defaultBlockSet;
     [HideInInspector]
     public Tilemap target;
@@ -47,7 +53,7 @@ public class TilemapTerrainGenerator : TerrainGenerator{
 
     public TilemapTerrainBlock FromVectorToBlock(Vector3Int vector3Int) {
         foreach (var node in terrainBlocks) {
-            if (vector3Int.x >= node.shifter.x && vector3Int.x <= node.shifter.x + node.blockLentgh) {
+            if (vector3Int.x >= node.shifter.x && vector3Int.x <= node.shifter.x + node.targetBlockSet.BlockLength) {
                 return node;
             }
         }
@@ -79,7 +85,6 @@ public class TilemapTerrainGenerator : TerrainGenerator{
     /// </summary>
     /// <param name="vector3Ints"></param>
     protected void DoShiftForTerrainInfoVec3Is(List<Vector3Int> vector3Ints){
-        Debug.Log(LeftBottomCorner);
         for(int i=0;i<vector3Ints.Count;i++){
             vector3Ints[i] = vector3Ints[i]+LeftBottomCorner;
         }
@@ -87,7 +92,7 @@ public class TilemapTerrainGenerator : TerrainGenerator{
     /// <summary>
     /// 生成当前区块的地形
     /// </summary>
-    protected void GenerateCurrentTerrainBlock() {
+    protected IEnumerator GenerateCurrentTerrainBlock() {
         TargetBlockSet.LetBlockGetInfo();
         if (terrainBlocks.Count == 0) {
             currentTilemapTerrainBlock.shifter = defaultShifter;
@@ -105,63 +110,81 @@ public class TilemapTerrainGenerator : TerrainGenerator{
                
             }
         }
+        yield return new WaitForEndOfFrame();
         DoShiftForTerrainInfoVec3Is(TargetBlockSet.GetTerrainInfoVec3I);
         currentTilemapTerrainBlock.seed = this.initSeed + BlockId;
-        target.SetTiles(TargetBlockSet.GetTerrainInfoVec3I.ToArray(),TargetBlockSet.GetTerrianInfoTileBase.ToArray());
+        for(int i=0;i<TargetBlockSet.GetTerrainInfoVec3I.Count;i++) {
+            target.SetTile(TargetBlockSet.GetTerrainInfoVec3I[i],TargetBlockSet.GetTerrianInfoTileBase[i]);
+            if(i%generatingSpeed==0)
+                yield return new WaitForEndOfFrame();
+        }
+        //target.SetTiles(TargetBlockSet.GetTerrainInfoVec3I.ToArray(),TargetBlockSet.GetTerrianInfoTileBase.ToArray());
         TargetBlockSet.ReleaseBlockInfo();
+        yield return new WaitForEndOfFrame();
     }
     
-    protected void GenerateTerrainForTerrainBlockWithId(int i) {
-        TilemapTerrainBlock tilemapTerrainBlock = new TilemapTerrainBlock(i);
+    protected IEnumerator GenerateTerrainForTerrainBlockWithId(int i) {
+        TilemapTerrainBlock tilemapTerrainBlock = new TilemapTerrainBlock(i,initSeed+i);
         tilemapTerrainBlock.targetBlockSet = defaultBlockSet;
+        TargetBlockSet.seed = tilemapTerrainBlock.seed;
         //将当前区块设置为目标区块
         currentTilemapTerrainBlock = tilemapTerrainBlock;
         //生成当前区块的地形
-        GenerateCurrentTerrainBlock();
+        yield return GenerateCurrentTerrainBlock();
     }
     
     /// <summary>
     /// 生成当前需要的地形.
     /// </summary>
-    public override void GenerateTerrain(){
+    public override IEnumerator GenerateTerrain(){
         if(target==null)target = GameObject.FindGameObjectWithTag(TARGET_DEFAULT_NAME).GetComponent<Tilemap>();
+ 
         if(TargetBlockSet==null){
             Debug.LogError("No target block-set assigned to generator:"+this.GetType());
         }else {
             var center = GetBlockIdByPosition(generatingCenter);
-            var rest = pregeneratingBlocksId.Where(x => (x <= center));
-            foreach (var i in pregeneratingBlocksId.Where(x=> (x<center)).Reverse()) {
+ 
+            foreach (var i in pregeneratingBlocksId.Where(x=> (x<=center)).Reverse()) {
 
-                GenerateTerrainForTerrainBlockWithId(i);
+                yield return GenerateTerrainForTerrainBlockWithId(i);
+                yield return new WaitForEndOfFrame();
             }
           foreach (var i in pregeneratingBlocksId.Where(x=> (x>center))) {
 
-               GenerateTerrainForTerrainBlockWithId(i);
+               yield return GenerateTerrainForTerrainBlockWithId(i);
+               yield return new WaitForEndOfFrame();
            }
-          
         }
+        pregeneratingBlocksId.Clear();
     }
-
-    public void ReleaseTerrainBlock(TilemapTerrainBlock tilemapTerrainBlock) {
+    ///
+    public IEnumerator ReleaseTerrainBlock(TilemapTerrainBlock tilemapTerrainBlock) {
         currentTilemapTerrainBlock = tilemapTerrainBlock;
         TargetBlockSet.seed = currentTilemapTerrainBlock.seed;
+        Debug.Log(currentTilemapTerrainBlock.shifter);
         TargetBlockSet.LetBlockGetInfo();
+        DoShiftForTerrainInfoVec3Is(TargetBlockSet.GetTerrainInfoVec3I);
+        int counter = 0;
         foreach (var vic in TargetBlockSet.GetTerrainInfoVec3I) {
             target.SetTile(vic,null);
+            if(counter++%generatingSpeed==0)
+                yield return new WaitForEndOfFrame();
         }
         TargetBlockSet.ReleaseBlockInfo();
     }
     /// <summary>
     /// 释放无需的地形
     /// </summary>
-    public override void ReleaseTerrain() {
+    public override IEnumerator ReleaseTerrain() {
         var blocksToDelete = terrainBlocks.Where(x => x.Wasted == true);
-        foreach (var block in blocksToDelete) {
-            ReleaseTerrainBlock(block);
+        var vars = blocksToDelete.ToList();
+  
+        foreach (var block in vars) {
+            Debug.Log(block.BlockId);
+            yield return ReleaseTerrainBlock(block);
             terrainBlocks.Remove(block);
         }
     }
-
     public List<int> GetSurroundedBlocksId(int id) {
         List<int> list = new List<int>();
         for (int i = id - PregeneratedBlockLength; i <= id + PregeneratedBlockLength; i++) {
@@ -174,6 +197,7 @@ public class TilemapTerrainGenerator : TerrainGenerator{
     //找到中心区块的ID
     public int GetBlockIdByPosition(Vector3Int v3) {
         var result = FromVectorToBlock(v3);
+//        Debug.Log(result);
         if (result!= null) {
             return result.BlockId;
         }
@@ -181,20 +205,33 @@ public class TilemapTerrainGenerator : TerrainGenerator{
             return (v3 - defaultShifter).x/TargetBlockSet.BlockLength;
         }
     }
-    public override void RefreshTerrain() {
-        int centerId = GetBlockIdByPosition(generatingCenter);
 
-        pregeneratingBlocksId = GetSurroundedBlocksId(centerId);
-        foreach (var node in terrainBlocks) {
-            var value = node.BlockId - centerId;
-            if (value > PregeneratedBlockLength) {
-                node.Wasted = true;
+    public override void Init() {
+        locked = false;
+    }
+    public override IEnumerator RefreshTerrain() {
+        if (locked == false) {
+            locked = true;
+            int centerId = GetBlockIdByPosition(generatingCenter);
+            pregeneratingBlocksId = GetSurroundedBlocksId(centerId);
+            foreach (var node in terrainBlocks) {
+                var value = Math.Abs(node.BlockId - centerId);
+                if (value > PregeneratedBlockLength) {
+                    node.Wasted = true;
+                }
+                else {
+                    pregeneratingBlocksId.Remove(node.BlockId);
+                    yield return new WaitForEndOfFrame();
+                }
             }
-            else {
-                pregeneratingBlocksId.Remove(node.BlockId);
+
+            if (pregeneratingBlocksId.Count!=0) {
+          
+                yield return GenerateTerrain();
+            
             }
-        }
-        GenerateTerrain();
-        ReleaseTerrain();
+            yield return ReleaseTerrain();
+            locked = false;
+        } 
     }
 }

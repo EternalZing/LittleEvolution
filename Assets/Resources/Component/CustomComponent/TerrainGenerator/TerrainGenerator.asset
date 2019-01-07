@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c04fa3bbc1a8fa344aed008ed74475e2, type: 3}
   m_Name: TerrainGenerator
   m_EditorClassIdentifier: 
+  generatingSpeed: 10
+  locked: 1
   defaultBlockSet: {fileID: 11400000, guid: e2c38900e27d84e4baafbd99d1e7039c, type: 2}
   target: {fileID: 0}
-  PregeneratedBlockLength: 2
+  PregeneratedBlockLength: 1
+  generatingCenter: {x: 26, y: 2, z: 0}
   initSeed: 
   currentTilemapTerrainBlock:
     targetBlockSet: {fileID: 11400000, guid: e2c38900e27d84e4baafbd99d1e7039c, type: 2}
-    seed: 0
-    shifter: {x: 0, y: 0, z: 0}
-    blockLentgh: 0
+    seed: -1
+    shifter: {x: -44, y: -4, z: 0}
+  defaultShifter: {x: -10, y: -4, z: 0}

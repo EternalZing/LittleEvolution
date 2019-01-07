@@ -15,16 +15,16 @@ public class KeyboardInputController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         if(horizontalInput!=0){
             /*暂时的写法 */
-            this.gameObject.GetComponent<AnimatorStateAdapter>().SetState("walk");
             gameObject.GetComponent<CharacterBase>().TurnFace(horizontalInput>0?1:-1);
             gameObject.GetComponent<CharacterBase>().Move();
         }else{
-             this.gameObject.GetComponent<AnimatorStateAdapter>().SetState("idle");
             gameObject.GetComponent<CharacterBase>().Idle();
         }
         if(Input.GetButtonDown("Jump")){
             this.gameObject.GetComponent<CharacterBase>().Jump();
-            this.gameObject.GetComponent<AnimatorStateAdapter>().SetState("jump");
+        }
+        if(Input.GetButton("Dash")){
+            this.gameObject.GetComponent<PlayerCharacterBase>().Dash();
         }
     }
 }
